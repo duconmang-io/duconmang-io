@@ -6,7 +6,7 @@
   var me = document.currentScript;
   var BASE = (me && me.getAttribute('data-qr-base')) || 'https://duconmang.io.vn/qr/';
   var BANK = {
-    name: 'TPBank', bin: '970423', account: '67600700999', holder: 'VO TRJNG THANH',
+    name: 'TPBank', bin: '970423', account: '67600700999', holder: 'VO TRUNG THANH',
     // VietQR (NAPAS 247) tĩnh, nội dung "Ung ho duconmang"
     payload: '00020101021138550010A000000727012500069704230111676007009990208QRIBFTTA53037045802VN62200816Ung ho duconmang63042E90'
   };
@@ -24,7 +24,7 @@
     [23, 'winter', 'Đêm · Vườn tuyết']
   ];
   function sceneNow() {
-    var q = /[?&]h=(\d{1,2})/.exec(location.search); // ?h=20 previews another hour
+    var q = /[?&]dcm_h=(\d{1,2})/.exec(location.search); // ?dcm_h=20 previews another hour
     var h = q ? +q[1] % 24 : new Date().getHours(), pick = HOURS[HOURS.length - 1];
     for (var i = 0; i < HOURS.length; i++) if (h >= HOURS[i][0]) pick = HOURS[i];
     return pick; // before 02:00 stays on the 23:00 scene
