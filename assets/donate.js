@@ -5,6 +5,10 @@
 (function () {
   var me = document.currentScript;
   var BASE = (me && me.getAttribute('data-qr-base')) || 'https://duconmang.io.vn/qr/';
+  var EN = !!me && me.getAttribute('data-lang') === 'en';
+  var T = EN
+    ? { name: 'Support duconmang.io.vn', tip: 'Support', bank: 'Bank (VN)', replay: 'Tap to replay', bankQr: 'VietQR bank transfer QR code', ppQr: 'PayPal QR code' }
+    : { name: 'Ủng hộ duconmang.io.vn', tip: 'Ủng hộ', bank: 'Ngân hàng', replay: 'Chạm để xem lại', bankQr: 'Mã VietQR chuyển khoản', ppQr: 'Mã QR PayPal' };
   var BANK = {
     name: 'TPBank', bin: '970423', account: '67600700999', holder: 'VO TRUNG THANH',
     // VietQR (NAPAS 247) tĩnh, nội dung "Ung ho duconmang"
@@ -62,13 +66,13 @@
 
   function init() {
     var style = el('style'); style.textContent = css; document.head.appendChild(style);
-    var fab = el('button', { type: 'button', 'class': 'dcm-fab', 'aria-label': 'Ủng hộ duconmang.io.vn', title: 'Ủng hộ' }, HEART);
+    var fab = el('button', { type: 'button', 'class': 'dcm-fab', 'aria-label': T.name, title: T.tip }, HEART);
     var dlg = el('dialog', { 'class': 'dcm-dlg', 'aria-labelledby': 'dcm-title' });
     dlg.innerHTML =
-      '<div class="dcm-wrap"><h2 id="dcm-title" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Ủng hộ duconmang.io.vn</h2>' +
-      '<div class="dcm-stage" title="Chạm để xem lại"></div>' +
+      '<div class="dcm-wrap"><h2 id="dcm-title" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">' + T.name + '</h2>' +
+      '<div class="dcm-stage" title="' + T.replay + '"></div>' +
       '<div class="dcm-card"><div class="dcm-top" role="tablist">' +
-      '<button type="button" role="tab" class="dcm-tab" data-k="bank" aria-selected="true">Ngân hàng</button>' +
+      '<button type="button" role="tab" class="dcm-tab" data-k="bank" aria-selected="true">' + T.bank + '</button>' +
       '<button type="button" role="tab" class="dcm-tab" data-k="paypal" aria-selected="false">PayPal</button>' +
       '</div></div></div>';
     document.body.appendChild(fab);
@@ -82,7 +86,7 @@
       var text = kind === 'bank' ? BANK.payload : PAYPAL.url;
       stage.innerHTML = '';
       stage.appendChild(el('iframe', {
-        title: kind === 'bank' ? 'Mã VietQR chuyển khoản ' + BANK.name : 'Mã QR PayPal',
+        title: kind === 'bank' ? T.bankQr + ' ' + BANK.name : T.ppQr,
         src: BASE + '?embed=1&season=' + scene[1] + '#text=' + encodeURIComponent(text),
         loading: 'eager', allow: 'fullscreen'
       }));
